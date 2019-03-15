@@ -8,7 +8,6 @@
 #include <string>
 #include <QMessageBox>
 #include <QFont>
-#include <QPropertyAnimation>
 #include <QIcon>
 using std::stringstream;
 using std::string;
@@ -25,19 +24,23 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
     setWindowFlags(windowFlags()&~Qt::WindowMaximizeButtonHint);    // 禁止最大化按钮
-    //setWindowFlags(Qt::FramelessWindowHint);                        // 设置窗口无边框
+    //setWindowFlags(Qt::FramelessWindowHint);                      // 设置窗口无边框
     setFixedSize(this->width(),this->height());                     // 禁止拖动窗口大小
-    this->setAttribute(Qt::WA_TranslucentBackground);
+
+
+
     ui->pushButton_read->setStyleSheet("border:2px groove gray;border-radius:10px;padding:2px 4px;");
     ui->pushButton_search->setStyleSheet("border:2px groove gray;border-radius:10px;padding:2px 4px;");
-    ui->progressBar->setRange(1,100000);
-    ui->progressBar->setVisible(false);
+    ui->textBrowser_main->setStyleSheet("border:2px groove gray;border-radius:10px;padding:2px 4px;");
+    ui->textBrowser_minor->setStyleSheet("border:2px groove gray;border-radius:10px;padding:2px 4px;");
+
     QIcon icon;
-    icon.addFile(tr(":/new/prefix1/btn.png"));
+    icon.addFile(tr(":/images/btn.png"));
     ui->pushButton_read->setIcon(icon);
     ui->pushButton_search->setIcon(icon);
+    ui->progressBar->setRange(1,100000);
+    ui->progressBar->setVisible(false);
     timer = new QTimer(this);
     connect(timer,SIGNAL(timeout()),this,SLOT(setProgressVis()));
 }
@@ -100,10 +103,10 @@ void MainWindow::on_pushButton_search_clicked()
         if(!ui->textBrowser_minor->document()->isEmpty())
             ui->textBrowser_minor->setText("");
         ui->progressBar->setMinimum(1);
-        ui->progressBar->setMaximum(100000);
+        ui->progressBar->setMaximum(10000);
         ui->progressBar->setVisible(true);
         ui->progressBar->setValue(1);
-        for(int i = 1;i < 100000;i ++)
+        for(int i = 1;i < 10000;i ++)
             ui->progressBar->setValue(i);
         QString str = ui->lineEdit_search->text();
         ui->lineEdit_search->setText("");
