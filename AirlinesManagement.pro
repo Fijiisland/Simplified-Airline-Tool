@@ -18,7 +18,8 @@ SOURCES += main.cpp\
         mainwindow.cpp
 
 HEADERS  += mainwindow.h \
-    airplane.h
+    airplane.h \
+    _utility.h
 
 FORMS    += mainwindow.ui
 

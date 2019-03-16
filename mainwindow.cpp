@@ -1,43 +1,57 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "_utility.h"
 
 #include <fstream>
 #include <sstream>
 #include <algorithm>
-#include <QString>
-#include <string>
+
 #include <QMessageBox>
 #include <QFont>
-#include <QPropertyAnimation>
+#include <QString>
 #include <QIcon>
+#include <QDebug>
+#include <QFontDatabase>
+#include <QScrollBar>
+
 using std::stringstream;
 using std::string;
-
-string cntBlanks(string &e);
-string cntBlanks(int &e);
-
-int cntLenInt(int num);
-int cmp(const Airplane &x, const Airplane &y);
-QString _format(const Airplane *tmp);
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    setWindowFlags(windowFlags()&~Qt::WindowMaximizeButtonHint);    // 禁止最大化
+    //setWindowFlags(Qt::FramelessWindowHint);
+    setFixedSize(this->width(),this->height());                     // 设置窗口大小固定
 
-    setWindowFlags(windowFlags()&~Qt::WindowMaximizeButtonHint);    // 禁止最大化按钮
-    //setWindowFlags(Qt::FramelessWindowHint);                        // 设置窗口无边框
-    setFixedSize(this->width(),this->height());                     // 禁止拖动窗口大小
-    this->setAttribute(Qt::WA_TranslucentBackground);
-    ui->pushButton_read->setStyleSheet("border:2px groove gray;border-radius:10px;padding:2px 4px;");
-    ui->pushButton_search->setStyleSheet("border:2px groove gray;border-radius:10px;padding:2px 4px;");
-    ui->progressBar->setRange(1,100000);
-    ui->progressBar->setVisible(false);
+    int fontID = QFontDatabase::addApplicationFont(tr(":/font/InfoDisplayWeb_Bold.ttf"));
+    QString msyh = QFontDatabase::applicationFontFamilies(fontID).at(0);
+    ui->label->setFont(QFont(msyh, 12));
+    ui->label_2->setFont(QFont(msyh, 12));
+    ui->label_3->setFont(QFont(msyh, 12));
+
+    myFont = new QFont("Courier New", 9);
+    ui->pushButton_read->setFont(*myFont);
+    ui->pushButton_search->setFont(*myFont);
+    myFont->setPointSize(8);
+    ui->label_right->setFont(*myFont);
+    myFont->setPointSize(9);
+
+    /*圆角矩形*/
+    ui->pushButton_read->setStyleSheet("border:1.5px groove gray;border-radius:10px;");
+    ui->pushButton_search->setStyleSheet("border:1.5px groove gray;border-radius:10px;");
+    ui->textBrowser_main->setStyleSheet("border:1.5px groove gray;border-radius:10px;");
+    ui->textBrowser_minor->setStyleSheet("border:1.5px groove gray;border-radius:10px;");
+
     QIcon icon;
-    icon.addFile(tr(":/new/prefix1/btn.png"));
+    icon.addFile(tr(":/images/btn.png"));
     ui->pushButton_read->setIcon(icon);
     ui->pushButton_search->setIcon(icon);
+    ui->progressBar->setRange(1,100000);
+    ui->progressBar->setVisible(false);
+
     timer = new QTimer(this);
     connect(timer,SIGNAL(timeout()),this,SLOT(setProgressVis()));
 }
@@ -46,6 +60,7 @@ MainWindow::~MainWindow()
 {
     delete ui;
     delete timer;
+    delete myFont;
 }
 
 void MainWindow::on_pushButton_read_clicked()
@@ -60,15 +75,15 @@ void MainWindow::on_pushButton_read_clicked()
                 QMessageBox::information(this, "啊哦", "你并没有在D盘创建相应文件哦", QMessageBox::Yes, QMessageBox::Yes);
             else{
                 ui->progressBar->setVisible(true);
+                /*进度条繁忙状态*/
                 ui->progressBar->setMinimum(0);
                 ui->progressBar->setMaximum(0);
                 timer->start(3500);
-                ui->textBrowser_main->append("num        start      end        period     offT       arrT       model      price      ");
-                QFont font;
-                font.setBold(true);
-                font.setPointSize(10);
+                ui->textBrowser_main->append("num        start      end        period     offT       arrT       model      price      \n");
+                QFont font("Courier New", 10, QFont::Bold);
                 ui->textBrowser_welcome_2->append("Please input an airline sequence to search.");
                 ui->textBrowser_welcome_2->setFont(font);
+
                 string line, t;
                 stringstream ss;
                 std::vector<std::string> storage;
@@ -85,6 +100,7 @@ void MainWindow::on_pushButton_read_clicked()
                     ss.str("");
                     storage.clear();
                 }
+                ui->textBrowser_main->setFont(*myFont);
             }
         }
         catch (const fstream::failure &e) {
@@ -97,13 +113,14 @@ void MainWindow::on_pushButton_read_clicked()
 void MainWindow::on_pushButton_search_clicked()
 {
     if(!ui->lineEdit_search->text().isEmpty()){
+        ui->lineEdit_search->setFont(*myFont);
         if(!ui->textBrowser_minor->document()->isEmpty())
             ui->textBrowser_minor->setText("");
         ui->progressBar->setMinimum(1);
-        ui->progressBar->setMaximum(100000);
+        ui->progressBar->setMaximum(10000);
         ui->progressBar->setVisible(true);
         ui->progressBar->setValue(1);
-        for(int i = 1;i < 100000;i ++)
+        for(int i = 1;i < 10000;i ++)
             ui->progressBar->setValue(i);
         QString str = ui->lineEdit_search->text();
         ui->lineEdit_search->setText("");
@@ -115,18 +132,19 @@ void MainWindow::on_pushButton_search_clicked()
         }
         else
             ui->textBrowser_minor->append("Sorry, cannot find it!");
+        ui->textBrowser_minor->setFont(*myFont);
     }
 }
 
-int cmp(const Airplane &x, const Airplane &y){
-    return x.airNum < y.airNum;
+void MainWindow::setProgressVis(){
+    ui->progressBar->setVisible(false);
 }
 
 const Airplane* MainWindow::bSearch(std::string tnum) {
-    int left = 0;
-    int right = planes.size() - 1;
+    unsigned left = 0;
+    unsigned right = planes.size() - 1;
     while (left <= right) {
-        int mid = (left + right) / 2;
+        unsigned mid = (left + right) / 2;
         if (planes[mid].airNum == tnum)
             return &planes[mid];
         else if (planes[mid].airNum < tnum)
@@ -137,35 +155,24 @@ const Airplane* MainWindow::bSearch(std::string tnum) {
     return nullptr;
 }
 
-int cntLenInt(int num){
-    int cnt = 0;
-    while(num != 0){
-        num /= 10;
-        cnt ++;
-    }
-    return cnt;
+void MainWindow::on_pushButton_clicked()
+{
+    QWizard wizard(this);
+    wizard.setWindowTitle(tr("How to use"));
+    wizard.addPage(createPage1());
+    wizard.addPage(createPage2());
+    wizard.exec();
 }
 
-string cntBlanks(const int &e){
-    const unsigned WIDTH = 11;
-    int wordL = cntLenInt(e);
-    return string(WIDTH - wordL, ' ');
-}
-string cntBlanks(const string &e){
-    const unsigned WIDTH = 11;
-    int wordL = e.length();
-    return string(WIDTH - wordL, ' ');
+QWizardPage* MainWindow::createPage1(){
+    QWizardPage* page = new QWizardPage;
+    page->setTitle(tr("首先在D盘根目录创建一个叫info,格式为txt的信息文件。"));
+    return page;
 }
 
-QString _format(const Airplane *tmp){
-    stringstream s;
-    s << tmp->airNum << cntBlanks(tmp->airNum) << tmp->start   << cntBlanks(tmp->start)
-      << tmp->end    << cntBlanks(tmp->end)    << tmp->period  << cntBlanks(tmp->period)
-      << tmp->offT   << cntBlanks(tmp->offT)   << tmp->arriveT << cntBlanks(tmp->arriveT)
-      << tmp->model  << cntBlanks(tmp->model)  << tmp->price   << cntBlanks(tmp->price);
-    return QString::fromLocal8Bit(s.str().c_str());
+QWizardPage* MainWindow::createPage2(){
+    QWizardPage* page = new QWizardPage;
+    page->setTitle(tr("按下Read读取，用Search!来查找你想要的航班号信息。"));
+    return page;
 }
 
-void MainWindow::setProgressVis(){
-    ui->progressBar->setVisible(false);
-}
