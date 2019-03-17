@@ -1,10 +1,10 @@
 <RCC>
     <qresource prefix="/images">
         <file>back1.jpeg</file>
-        <file>btn.png</file>
-        <file>mainICO.png</file>
         <file>back2.jpg</file>
+        <file>btn.png</file>
         <file>hint0.png</file>
+        <file>mainICO.png</file>
     </qresource>
     <qresource prefix="/font">
         <file>InfoDisplayWeb_Bold.ttf</file>
