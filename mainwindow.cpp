@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "_utility.h"
-#include "_blendSort.h"
+#include "_utility.h"       // 自定义算法包
 
 #include <fstream>
 #include <sstream>

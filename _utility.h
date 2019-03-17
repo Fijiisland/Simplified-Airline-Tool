@@ -1,7 +1,7 @@
-#ifndef _UTILITY_H
-#define _UTILITY_H
+#pragma once
 
 #include "airplane.h"
+#include "_blendSort.h"
 
 #include <iostream>
 #include <string>
@@ -31,13 +31,13 @@ unsigned cntLenInt(int num){
     }
     return cnt;
 }
-
+inline
 std::string cntBlanks(const int &e){
     const unsigned WIDTH = 11;
     unsigned wordL = cntLenInt(e);
     return std::string(WIDTH - wordL, ' ');
 }
-
+inline
 std::string cntBlanks(const std::string &e){
     const unsigned WIDTH = 11;
     unsigned wordL = e.length();
@@ -52,5 +52,3 @@ QString _format(const Airplane *tmp){
       << tmp->model  << cntBlanks(tmp->model)  << tmp->price   << cntBlanks(tmp->price);
     return QString::fromLocal8Bit(s.str().c_str());
 }
-
-#endif // _UTILITY_H
