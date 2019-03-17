@@ -5,13 +5,13 @@
 #include <string>
 #include <vector>
 
+#define STR const std::string
+
 class Airplane {
-    friend void print(const std::vector<Airplane> &e);
-    friend void printSingle(const Airplane &tmp);
 public:
     explicit Airplane() = default;
-    explicit Airplane(std::string &ai, std::string &st, std::string &en, std::string &pe,
-        int of, int ar, std::string &mo, int pr)
+    explicit Airplane(STR &ai, STR &st, STR &en, STR &pe,
+        int of, int ar, STR &mo, int pr)
         : airNum(ai), start(st), end(en), period(pe), offT(of), arriveT(ar), model(mo), price(pr) {}
 public:
     std::string airNum;
