@@ -1,2 +1,2 @@
 # Simplified-Airline-Tool
-Written with c++, Qt Library.
+Written with C++ & Qt Library.
