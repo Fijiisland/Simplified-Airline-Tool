@@ -71,12 +71,12 @@ void MainWindow::on_pushButton_read_clicked()
 {
     if(ui->textBrowser_main->document()->isEmpty()){
         using std::fstream;
-        const char *path = "D://info.txt";
+        const char *path = "/Users/1kasshole/Documents/info.txt";
         fstream fs;
         try {
             fs.open(path, fstream::in);
             if(!fs)
-                QMessageBox::information(this, "啊哦", "你并没有在D盘创建相应文件哦", QMessageBox::Yes, QMessageBox::Yes);
+                QMessageBox::information(this, "啊哦", "你并没有在Document文件夹创建相应文件哦", QMessageBox::Yes);
             else{
                 ui->progressBar->setVisible(true);
                 /*进度条繁忙状态*/

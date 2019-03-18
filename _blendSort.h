@@ -21,6 +21,7 @@ namespace mySort{
 
     template <typename RandomAccessIterator, typename Compare>
     void sort(RandomAccessIterator first, RandomAccessIterator last, Compare cmp){
+        if(first == last) return;
         srand((unsigned)time(nullptr));
         _quickSort(first, last - 1, cmp);
     }
