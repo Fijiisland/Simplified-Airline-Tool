@@ -1,7 +1,15 @@
 <RCC>
     <qresource prefix="/images">
-        <file>back1.jpeg</file>
         <file>btn.png</file>
-        <file>back2.jpg</file>
+        <file>hint0.png</file>
+        <file>mainICO.png</file>
+        <file>back.png</file>
+        <file>minimize0.png</file>
+        <file>minimize1.png</file>
+        <file>quit0.png</file>
+        <file>quit1.png</file>
+    </qresource>
+    <qresource prefix="/font">
+        <file>InfoDisplayWeb_Bold.ttf</file>
     </qresource>
 </RCC>
