@@ -19,9 +19,12 @@ SOURCES += main.cpp\
 
 HEADERS  += mainwindow.h \
     airplane.h \
-    _utility.h
+    _utility.h \
+    _blendSort.h \
+    _InsertionSort.h
 
 FORMS    += mainwindow.ui
 
 RESOURCES += \
     source.qrc
+

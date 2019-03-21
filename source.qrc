@@ -1,16 +1,17 @@
 <RCC>
     <qresource prefix="/images">
-        <file>back1.jpeg</file>
         <file>btn.png</file>
-        <file>mainICO.png</file>
-        <file>back2.jpg</file>
         <file>hint0.png</file>
+        <file>mainICO.png</file>
+        <file>minimize0.png</file>
+        <file>minimize1.png</file>
+        <file>quit0.png</file>
+        <file>quit1.png</file>
+        <file>minimize3.png</file>
+        <file>quit3.png</file>
+        <file>logo.ico</file>
     </qresource>
     <qresource prefix="/font">
-        <file>InfoDisplayWeb.ttf</file>
         <file>InfoDisplayWeb_Bold.ttf</file>
-    </qresource>
-    <qresource prefix="/methods">
-        <file>ScrollBar.qss</file>
     </qresource>
 </RCC>
