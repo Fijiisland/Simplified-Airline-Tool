@@ -49,7 +49,7 @@ void MainWindow::on_pushButton_read_clicked()
 {
     if(ui->textBrowser_main->document()->isEmpty()){
         using std::fstream;
-        const char *path = "D://info.txt";
+        const char *path = "/Users/1kasshole/Desktop/info.txt";
         fstream fs;
         try {
             fs.open(path, fstream::in);
@@ -195,7 +195,11 @@ void MainWindow::initialization(){
 
     ui->pushButton_read->setFont(_instance(myFont));
     ui->pushButton_search->setFont(_instance(myFont));
+#ifdef Q_OS_MACOS
+    myFont->setPointSize(11);
+#else
     myFont->setPointSize(8);
+#endif
     ui->label_6->setFont(_instance(myFont));
     myFont->setPointSize(8);
     myFont->setBold(false);
