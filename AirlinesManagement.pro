@@ -15,13 +15,13 @@ RC_ICONS = logo.ico
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
+        mainwindow.cpp
 
 HEADERS  += mainwindow.h \
     airplane.h \
     _utility.h \
     _blendSort.h \
-    _InsertionSort.h \
+    _InsertionSort.h
 
 FORMS    += mainwindow.ui
 

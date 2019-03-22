@@ -1,6 +1,6 @@
 #pragma once
 
-#define _instance(x) *(x)
+#define _instance(x) (*(x))
 #include "airplane.h"
 //
 // Created by HengyiYu on 2019/3/17.

@@ -1,11 +1,12 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "_utility.h"       // 自定义算法包
+#include "_utility.h"       // Customized Algorithm Jar
 
 #include <fstream>
 #include <sstream>
 #include <algorithm>
 
+#include <QMouseEvent>
 #include <QMessageBox>
 #include <QFont>
 #include <QString>
@@ -13,49 +14,26 @@
 #include <QDebug>
 #include <QFontDatabase>
 #include <QScrollBar>
+#include <QGraphicsDropShadowEffect>
+#include <QPainter>
+#include <QPixmap>
+#include <QBitmap>
 
 using std::stringstream;
 using std::string;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    m_move(false)
 {
     ui->setupUi(this);
-    setWindowFlags(windowFlags()&~Qt::WindowMaximizeButtonHint);    // 禁止最大化
-    //setWindowFlags(Qt::FramelessWindowHint);
-    setFixedSize(this->width(),this->height());                     // 设置窗口大小固定
-
-    int fontID = QFontDatabase::addApplicationFont(tr(":/font/InfoDisplayWeb_Bold.ttf"));
-    QString msyh = QFontDatabase::applicationFontFamilies(fontID).at(0);
-    ui->label->setFont(QFont(msyh, 13));
-    ui->label_2->setFont(QFont(msyh, 13));
-    ui->label_3->setFont(QFont(msyh, 13));
-    ui->label->setStyleSheet("color:#8B8386;");
-    ui->label_2->setStyleSheet("color:#8B8386;");
-    ui->label_3->setStyleSheet("color:#8B8386;");
-
+    setWindowFlags(windowFlags()&~Qt::WindowMaximizeButtonHint);
+    setWindowFlags(Qt::FramelessWindowHint);
+    setFixedSize(this->width(),this->height());
+    this->setAttribute(Qt::WA_TranslucentBackground);
     myFont = new QFont("Courier New", 9, QFont::Bold);
-    ui->pushButton_read->setFont(*myFont);
-    ui->pushButton_search->setFont(*myFont);
-    myFont->setPointSize(8);
-    myFont->setBold(false);
-    ui->label_right->setFont(*myFont);
-    myFont->setPointSize(9);
-
-    /*圆角矩形*/
-    ui->pushButton_read->setStyleSheet("border:1.5px groove gray;border-radius:10px;");
-    ui->pushButton_search->setStyleSheet("border:1.5px groove gray;border-radius:10px;");
-    ui->textBrowser_main->setStyleSheet("border:1.5px groove gray;border-radius:10px;");
-    ui->textBrowser_minor->setStyleSheet("border:1.5px groove gray;border-radius:10px;");
-
-    QIcon icon;
-    icon.addFile(tr(":/images/btn.png"));
-    ui->pushButton_read->setIcon(icon);
-    ui->pushButton_search->setIcon(icon);
-    ui->progressBar->setRange(1,100000);
-    setProgressNOTVis();
-
+    initialization();
     timer = new QTimer(this);
     connect(timer,SIGNAL(timeout()),this,SLOT(setProgressNOTVis()));
 }
@@ -71,12 +49,12 @@ void MainWindow::on_pushButton_read_clicked()
 {
     if(ui->textBrowser_main->document()->isEmpty()){
         using std::fstream;
-        const char *path = "/Users/1kasshole/Documents/info.txt";
+        const char *path = "D://info.txt";
         fstream fs;
         try {
             fs.open(path, fstream::in);
             if(!fs)
-                QMessageBox::information(this, "啊哦", "你并没有在Document文件夹创建相应文件哦", QMessageBox::Yes);
+                QMessageBox::information(this, "啊哦", "你并没有在D盘创建相应文件哦", QMessageBox::Yes);
             else{
                 ui->progressBar->setVisible(true);
                 /*进度条繁忙状态*/
@@ -105,12 +83,12 @@ void MainWindow::on_pushButton_read_clicked()
                     storage.clear();
                 }
                 ui->textBrowser_main->setFont(*myFont);
+                mySort::sort(planes.begin(), planes.end(), cmp);
             }
         }
         catch (const fstream::failure &e) {
             std::cout << e.what() << std::endl;
         }
-        mySort::sort(planes.begin(), planes.end(), cmp);
     }
 }
 
@@ -180,3 +158,111 @@ QWizardPage* MainWindow::createPage2(){
     return page;
 }
 
+void MainWindow::paintEvent(QPaintEvent *)          // Draw shadow effect
+{
+    QRect rect(10,10,this->width() - 20,this->height() - 20);
+    QPainterPath path;
+    path.setFillRule(Qt::WindingFill);
+    path.addRect(rect);
+
+    QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing, true);
+    painter.fillPath(path, QBrush(Qt::white));
+
+    QColor color(0, 0, 0, 50);
+    unsigned bod = 10;
+    for(int i = 0; i< bod; i++)
+    {
+        QPainterPath path;
+        path.setFillRule(Qt::WindingFill);
+        path.addRect(bod-i, bod-i, this->width()-(bod-i)*2, this->height()-(bod-i)*2);
+        color.setAlpha(150 - sqrt(i)*50);
+        painter.setPen(color);
+        painter.drawPath(path);
+    }
+}
+
+void MainWindow::initialization(){
+    /* Custom Logo Font */
+    int fontID = QFontDatabase::addApplicationFont(tr(":/font/InfoDisplayWeb_Bold.ttf"));
+    QString msyh = QFontDatabase::applicationFontFamilies(fontID).at(0);
+    ui->label->setFont(QFont(msyh, 13));
+    ui->label_2->setFont(QFont(msyh, 13));
+    ui->label_3->setFont(QFont(msyh, 13));
+    ui->label->setStyleSheet("color:#8B8386;");
+    ui->label_2->setStyleSheet("color:#8B8386;");
+    ui->label_3->setStyleSheet("color:#8B8386;");
+
+    ui->pushButton_read->setFont(_instance(myFont));
+    ui->pushButton_search->setFont(_instance(myFont));
+    myFont->setPointSize(8);
+    ui->label_6->setFont(_instance(myFont));
+    myFont->setPointSize(8);
+    myFont->setBold(false);
+    ui->label_right->setFont(_instance(myFont));
+    myFont->setPointSize(9);
+
+    ui->pushBtn_minimize->setStyleSheet("QPushButton{border-image: url(:/images/minimize0.png);}"
+                                        "QPushButton:hover{border-image: url(:/images/minimize1.png);}"
+                                        "QPushButton:pressed{border-image: url(:/images/minimize3.png);}");
+
+    ui->pushBtn_close->setStyleSheet("QPushButton{border-image: url(:/images/quit0.png);}"
+                                        "QPushButton:hover{border-image: url(:/images/quit1.png);}"
+                                        "QPushButton:pressed{border-image: url(:/images/quit3.png);}");
+
+
+    ui->pushButton_read->setStyleSheet("border:1.5px groove gray;border-radius:10px;");
+    ui->pushButton_search->setStyleSheet("border:1.5px groove gray;border-radius:10px;");
+    ui->textBrowser_main->setStyleSheet("border:1.5px dashed #A3A3A3;");
+    ui->textBrowser_minor->setStyleSheet("border:1.5px dashed #A3A3A3;");
+
+    QIcon icon;
+    icon.addFile(tr(":/images/btn.png"));
+    ui->pushButton_read->setIcon(icon);
+    ui->pushButton_search->setIcon(icon);
+    ui->progressBar->setRange(1,100000);
+    setProgressNOTVis();
+}
+
+
+void MainWindow::on_pushBtn_close_clicked()
+{
+    this->close();
+}
+
+void MainWindow::on_pushBtn_minimize_clicked()
+{
+    if(this->windowState() != Qt::WindowMinimized)
+        this->setWindowState(Qt::WindowMinimized);
+}
+
+void MainWindow::mousePressEvent(QMouseEvent *event)
+{
+    //当鼠标左键点击时.
+    if (event->button() == Qt::LeftButton)
+    {
+        m_move = true;
+        //记录鼠标的世界坐标.
+        m_startPoint = event->globalPos();
+        //记录窗体的世界坐标.
+        m_windowPoint = this->frameGeometry().topLeft();
+    }
+}
+void MainWindow::mouseMoveEvent(QMouseEvent *event)
+{
+    if (event->buttons() & Qt::LeftButton)
+    {
+        //移动中的鼠标位置相对于初始位置的相对位置.
+        QPoint relativePos = event->globalPos() - m_startPoint;
+        //然后移动窗体即可.
+        this->move(m_windowPoint + relativePos );
+    }
+}
+void MainWindow::mouseReleaseEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton)
+    {
+        //改变移动状态.
+        m_move = false;
+    }
+}
