@@ -76,10 +76,6 @@ void MainWindow::on_pushButton_read_clicked()
                 /*进度条繁忙状态*/
                 timer->start(3500);
                 ui->textBrowser_main->append("num        start      end        period     offT       arrT       model      price      \n");
-                QFont font("Courier New", 10, QFont::Bold);
-                ui->textBrowser_welcome_2->append("Please input an airline sequence to search.");
-                ui->textBrowser_welcome_2->setFont(font);
-
                 string line, t;
                 stringstream ss;
                 std::vector<std::string> storage;
@@ -195,14 +191,12 @@ void MainWindow::initialization(){
     ui->label_3->setStyleSheet("color:#8B8386;");
 
     ui->pushButton_read->setFont(_instance(myFont));
-    ui->pushButton_search->setFont(_instance(myFont));
+    ui->pushButton_search->setFont(_instance(myFont));   
 #ifdef Q_OS_MACOS
-    myFont->setFamily("Helvetica Neue");
     myFont->setPointSize(11);
 #else
     myFont->setPointSize(8);
 #endif
-    myFont->setFamily("Couriew New");
     ui->label_6->setFont(_instance(myFont));
     myFont->setPointSize(8);
     myFont->setBold(false);

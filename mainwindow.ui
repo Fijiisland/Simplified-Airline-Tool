@@ -112,6 +112,9 @@
       <height>111</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(:/images/search_hint.png);</string>
+    </property>
     <property name="lineWidth">
      <number>1</number>
     </property>

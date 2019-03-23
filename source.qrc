@@ -13,6 +13,7 @@
         <file>about1.png</file>
         <file>about0.png</file>
         <file>about3.png</file>
+        <file>search_hint.png</file>
     </qresource>
     <qresource prefix="/font">
         <file>InfoDisplayWeb_Bold.ttf</file>
