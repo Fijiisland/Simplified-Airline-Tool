@@ -1,11 +1,9 @@
 #ifndef AIRPLANE_H
 #define AIRPLANE_H
-
+#define STR const std::string
 #include <iostream>
 #include <string>
 #include <vector>
-
-#define STR const std::string
 
 class Airplane {
 public:
@@ -18,9 +16,10 @@ public:
     std::string start;
     std::string end;
     std::string period;
-    int offT, arriveT;
+    int         offT;
+    int         arriveT;
     std::string model;
-    int price;
+    int         price;
 };
 
 #endif // AIRPLANE_H

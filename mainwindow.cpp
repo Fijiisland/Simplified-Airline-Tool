@@ -13,8 +13,6 @@
 #include <QIcon>
 #include <QDebug>
 #include <QFontDatabase>
-#include <QScrollBar>
-#include <QGraphicsDropShadowEffect>
 #include <QPainter>
 #include <QPixmap>
 #include <QBitmap>
@@ -45,6 +43,21 @@ MainWindow::~MainWindow()
     delete myFont;
 }
 
+const Airplane* MainWindow::bSearch(std::string tnum) {
+    unsigned left = 0;
+    unsigned right = planes.size() - 1;
+    while (left <= right) {
+        unsigned mid = (left + right) / 2;
+        if (planes[mid].airNum == tnum)
+            return &planes[mid];
+        else if (planes[mid].airNum < tnum)
+            left = mid + 1;
+        else
+            right = mid - 1;
+    }
+    return nullptr;
+}
+
 void MainWindow::on_pushButton_read_clicked()
 {
     if(ui->textBrowser_main->document()->isEmpty()){
@@ -60,6 +73,7 @@ void MainWindow::on_pushButton_read_clicked()
                 /*进度条繁忙状态*/
                 ui->progressBar->setMinimum(0);
                 ui->progressBar->setMaximum(0);
+                /*进度条繁忙状态*/
                 timer->start(3500);
                 ui->textBrowser_main->append("num        start      end        period     offT       arrT       model      price      \n");
                 QFont font("Courier New", 10, QFont::Bold);
@@ -82,8 +96,8 @@ void MainWindow::on_pushButton_read_clicked()
                     ss.str("");
                     storage.clear();
                 }
-                ui->textBrowser_main->setFont(*myFont);
-                mySort::sort(planes.begin(), planes.end(), cmp);
+                ui->textBrowser_main->setFont(_instance(myFont));
+                mySort::sort(planes.begin(), planes.end(), cmp);           // 自定义sort算法
             }
         }
         catch (const fstream::failure &e) {
@@ -95,7 +109,7 @@ void MainWindow::on_pushButton_read_clicked()
 void MainWindow::on_pushButton_search_clicked()
 {
     if(!ui->lineEdit_search->text().isEmpty()){
-        ui->lineEdit_search->setFont(*myFont);
+        ui->lineEdit_search->setFont(_instance(myFont));
         if(!ui->textBrowser_minor->document()->isEmpty())
             ui->textBrowser_minor->setText("");
         ui->progressBar->setMinimum(1);
@@ -114,27 +128,12 @@ void MainWindow::on_pushButton_search_clicked()
         }
         else
             ui->textBrowser_minor->append("Sorry, cannot find it!");
-        ui->textBrowser_minor->setFont(*myFont);
+        ui->textBrowser_minor->setFont(_instance(myFont));
     }
 }
 
 void MainWindow::setProgressNOTVis(){
     ui->progressBar->setVisible(false);
-}
-
-const Airplane* MainWindow::bSearch(std::string tnum) {
-    unsigned left = 0;
-    unsigned right = planes.size() - 1;
-    while (left <= right) {
-        unsigned mid = (left + right) / 2;
-        if (planes[mid].airNum == tnum)
-            return &planes[mid];
-        else if (planes[mid].airNum < tnum)
-            left = mid + 1;
-        else
-            right = mid - 1;
-    }
-    return nullptr;
 }
 
 void MainWindow::on_pushButton_clicked()
@@ -160,22 +159,24 @@ QWizardPage* MainWindow::createPage2(){
 
 void MainWindow::paintEvent(QPaintEvent *)          // Draw shadow effect
 {
+    unsigned radius = 5;
+    unsigned bod = 10;
     QRect rect(10,10,this->width() - 20,this->height() - 20);
     QPainterPath path;
     path.setFillRule(Qt::WindingFill);
-    path.addRect(rect);
+    path.addRoundedRect(rect, radius, radius);
 
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.fillPath(path, QBrush(Qt::white));
-
+    painter.drawRoundedRect(rect, radius, radius);
     QColor color(0, 0, 0, 50);
-    unsigned bod = 10;
     for(int i = 0; i< bod; i++)
     {
         QPainterPath path;
         path.setFillRule(Qt::WindingFill);
-        path.addRect(bod-i, bod-i, this->width()-(bod-i)*2, this->height()-(bod-i)*2);
+        QRect tmp(bod-i, bod-i, this->width()-(bod-i)*2, this->height()-(bod-i)*2);
+        path.addRoundedRect(tmp,radius,radius);
         color.setAlpha(150 - sqrt(i)*50);
         painter.setPen(color);
         painter.drawPath(path);
@@ -196,10 +197,12 @@ void MainWindow::initialization(){
     ui->pushButton_read->setFont(_instance(myFont));
     ui->pushButton_search->setFont(_instance(myFont));
 #ifdef Q_OS_MACOS
+    myFont->setFamily("Helvetica Neue");
     myFont->setPointSize(11);
 #else
     myFont->setPointSize(8);
 #endif
+    myFont->setFamily("Couriew New");
     ui->label_6->setFont(_instance(myFont));
     myFont->setPointSize(8);
     myFont->setBold(false);
@@ -211,8 +214,12 @@ void MainWindow::initialization(){
                                         "QPushButton:pressed{border-image: url(:/images/minimize3.png);}");
 
     ui->pushBtn_close->setStyleSheet("QPushButton{border-image: url(:/images/quit0.png);}"
-                                        "QPushButton:hover{border-image: url(:/images/quit1.png);}"
-                                        "QPushButton:pressed{border-image: url(:/images/quit3.png);}");
+                                     "QPushButton:hover{border-image: url(:/images/quit1.png);}"
+                                     "QPushButton:pressed{border-image: url(:/images/quit3.png);}");
+
+    ui->pushBtn_about->setStyleSheet("QPushButton{border-image: url(:/images/about0.png);}"
+                                     "QPushButton:hover{border-image: url(:/images/about1.png);}"
+                                     "QPushButton:pressed{border-image: url(:/images/about3.png);}");
 
 
     ui->pushButton_read->setStyleSheet("border:1.5px groove gray;border-radius:10px;");
@@ -228,7 +235,7 @@ void MainWindow::initialization(){
     setProgressNOTVis();
 }
 
-
+/* 右上角自定义按钮事件 */
 void MainWindow::on_pushBtn_close_clicked()
 {
     this->close();
@@ -237,9 +244,12 @@ void MainWindow::on_pushBtn_close_clicked()
 void MainWindow::on_pushBtn_minimize_clicked()
 {
     if(this->windowState() != Qt::WindowMinimized)
-        this->setWindowState(Qt::WindowMinimized);
+        this->setWindowState(Qt::WindowMinimized);    // 在macOS下有bug
 }
+/* 右上角自定义按钮事件 */
 
+
+/* Defination of mouseevent */
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
     //当鼠标左键点击时.
@@ -270,3 +280,4 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *event)
         m_move = false;
     }
 }
+/* Defination of mouseevent */

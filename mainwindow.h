@@ -20,6 +20,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
 protected:
       virtual void paintEvent( QPaintEvent * e);
 
@@ -28,6 +29,7 @@ protected:
       virtual void mouseMoveEvent(QMouseEvent *event);
 
       virtual void mouseReleaseEvent(QMouseEvent *event);
+
 private slots:
     void on_pushButton_read_clicked();
 
@@ -42,20 +44,18 @@ private slots:
     void on_pushBtn_minimize_clicked();
 
 private:
-    const Airplane* bSearch(std::string tnum);
-
-    void initialization();
-
-private:
-    Ui::MainWindow *ui;
+    Ui::MainWindow       *ui;
     std::vector<Airplane> planes;
-    QTimer *timer;
-    QFont *myFont;
-    QWizardPage* createPage1();
-    QWizardPage* createPage2();
-    QPoint m_startPoint;
-    QPoint m_windowPoint;
-    bool m_move;
+    QTimer               *timer;
+    QFont                *myFont;
+    QPoint                m_startPoint;
+    QPoint                m_windowPoint;
+    bool                  m_move;
+    const Airplane* bSearch(std::string tnum);
+    void            initialization();
+    QWizardPage*    createPage1();
+    QWizardPage*    createPage2();
+
 };
 
 #endif // MAINWINDOW_H

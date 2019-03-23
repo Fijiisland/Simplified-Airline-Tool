@@ -10,6 +10,9 @@
         <file>minimize3.png</file>
         <file>quit3.png</file>
         <file>logo.ico</file>
+        <file>about1.png</file>
+        <file>about0.png</file>
+        <file>about3.png</file>
     </qresource>
     <qresource prefix="/font">
         <file>InfoDisplayWeb_Bold.ttf</file>
