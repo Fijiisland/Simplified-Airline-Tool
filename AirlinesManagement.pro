@@ -15,15 +15,18 @@ RC_ICONS = logo.ico
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    _aboutdialog.cpp
 
 HEADERS  += mainwindow.h \
-    airplane.h \
     _utility.h \
     _blendSort.h \
-    _InsertionSort.h
+    _InsertionSort.h \
+    _airplane.h \
+    _aboutdialog.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    _aboutdialog.ui
 
 RESOURCES += \
     source.qrc

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "airplane.h"
+#include "_airplane.h"
 #include "_blendSort.h"
 
 #include <iostream>
@@ -12,11 +12,11 @@ std::string cntBlanks(std::string &e);
 
 std::string cntBlanks(int &e);
 
-unsigned cntLenInt(int num);
+unsigned    cntLenInt(int num);
 
-int cmp(const Airplane &x, const Airplane &y);
+int         cmp(const Airplane &x, const Airplane &y);
 
-QString _format(const Airplane *tmp);
+QString     _format(const Airplane *tmp);
 
 
 int cmp(const Airplane &x, const Airplane &y){
@@ -31,13 +31,13 @@ unsigned cntLenInt(int num){
     }
     return cnt;
 }
-inline
+
 std::string cntBlanks(const int &e){
     const unsigned WIDTH = 11;
     unsigned wordL = cntLenInt(e);
     return std::string(WIDTH - wordL, ' ');
 }
-inline
+
 std::string cntBlanks(const std::string &e){
     const unsigned WIDTH = 11;
     unsigned wordL = e.length();
