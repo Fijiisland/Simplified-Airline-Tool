@@ -173,7 +173,7 @@
      <string/>
     </property>
    </widget>
-   <widget class="QLabel" name="label_4">
+   <widget class="QLabel" name="label_ico_bar">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -192,7 +192,7 @@
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="pushBtn_help">
     <property name="geometry">
      <rect>
       <x>240</x>
@@ -225,21 +225,21 @@
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="label_font1">
        <property name="text">
         <string>Airline</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_2">
+      <widget class="QLabel" name="label_font2">
        <property name="text">
         <string>Manage</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_3">
+      <widget class="QLabel" name="label_font3">
        <property name="text">
         <string>Tool</string>
        </property>
@@ -279,7 +279,7 @@
      <string/>
     </property>
    </widget>
-   <widget class="QLabel" name="label_5">
+   <widget class="QLabel" name="label_logo">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -295,7 +295,7 @@
      <string/>
     </property>
    </widget>
-   <widget class="QLabel" name="label_6">
+   <widget class="QLabel" name="label_logo_text">
     <property name="geometry">
      <rect>
       <x>60</x>

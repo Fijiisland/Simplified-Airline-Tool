@@ -7,7 +7,8 @@
 #include <QtCore>
 #include <QFont>
 #include <QWizard>
-#include "airplane.h"
+#include "_airplane.h"
+#include "_aboutdialog.h" // Customized Dialog Window
 
 namespace Ui {
 class MainWindow;
@@ -37,14 +38,19 @@ private slots:
 
     void setProgressNOTVis();
 
-    void on_pushButton_clicked();
-
     void on_pushBtn_close_clicked();
 
     void on_pushBtn_minimize_clicked();
 
+    void on_pushBtn_help_clicked();
+
+    //void on_pushBtn_about_clicked();
+
+    void on_pushBtn_about_clicked();
+
 private:
     Ui::MainWindow       *ui;
+    _AboutDialog         *aboutDialog;
     std::vector<Airplane> planes;
     QTimer               *timer;
     QFont                *myFont;
@@ -55,7 +61,6 @@ private:
     void            initialization();
     QWizardPage*    createPage1();
     QWizardPage*    createPage2();
-
 };
 
 #endif // MAINWINDOW_H

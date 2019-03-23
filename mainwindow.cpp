@@ -62,7 +62,7 @@ void MainWindow::on_pushButton_read_clicked()
 {
     if(ui->textBrowser_main->document()->isEmpty()){
         using std::fstream;
-        const char *path = "/Users/1kasshole/Desktop/info.txt";
+        const char *path = "D://info.txt";
         fstream fs;
         try {
             fs.open(path, fstream::in);
@@ -132,15 +132,6 @@ void MainWindow::setProgressNOTVis(){
     ui->progressBar->setVisible(false);
 }
 
-void MainWindow::on_pushButton_clicked()
-{
-    QWizard wizard(this);
-    wizard.setWindowTitle(tr("How to use"));
-    wizard.addPage(createPage1());
-    wizard.addPage(createPage2());
-    wizard.exec();
-}
-
 QWizardPage* MainWindow::createPage1(){
     QWizardPage* page = new QWizardPage;
     page->setTitle(tr("首先在D盘根目录创建一个叫info,格式为txt的信息文件。"));
@@ -183,12 +174,12 @@ void MainWindow::initialization(){
     /* Custom Logo Font */
     int fontID = QFontDatabase::addApplicationFont(tr(":/font/InfoDisplayWeb_Bold.ttf"));
     QString msyh = QFontDatabase::applicationFontFamilies(fontID).at(0);
-    ui->label->setFont(QFont(msyh, 13));
-    ui->label_2->setFont(QFont(msyh, 13));
-    ui->label_3->setFont(QFont(msyh, 13));
-    ui->label->setStyleSheet("color:#8B8386;");
-    ui->label_2->setStyleSheet("color:#8B8386;");
-    ui->label_3->setStyleSheet("color:#8B8386;");
+    ui->label_font1->setFont(QFont(msyh, 13));
+    ui->label_font2->setFont(QFont(msyh, 13));
+    ui->label_font3->setFont(QFont(msyh, 13));
+    ui->label_font1->setStyleSheet("color:#8B8386;");
+    ui->label_font2->setStyleSheet("color:#8B8386;");
+    ui->label_font3->setStyleSheet("color:#8B8386;");
 
     ui->pushButton_read->setFont(_instance(myFont));
     ui->pushButton_search->setFont(_instance(myFont));   
@@ -197,7 +188,7 @@ void MainWindow::initialization(){
 #else
     myFont->setPointSize(8);
 #endif
-    ui->label_6->setFont(_instance(myFont));
+    ui->label_logo_text->setFont(_instance(myFont));
     myFont->setPointSize(8);
     myFont->setBold(false);
     ui->label_right->setFont(_instance(myFont));
@@ -240,10 +231,9 @@ void MainWindow::on_pushBtn_minimize_clicked()
     if(this->windowState() != Qt::WindowMinimized)
         this->setWindowState(Qt::WindowMinimized);    // 在macOS下有bug
 }
-/* 右上角自定义按钮事件 */
 
 
-/* Defination of mouseevent */
+/* Defination of mouse event */
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
     //当鼠标左键点击时.
@@ -274,4 +264,21 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *event)
         m_move = false;
     }
 }
-/* Defination of mouseevent */
+
+void MainWindow::on_pushBtn_help_clicked()
+{
+    QWizard wizard(this);
+    wizard.setWindowTitle(tr("How to use"));
+    wizard.addPage(createPage1());
+    wizard.addPage(createPage2());
+    wizard.exec();
+}
+
+
+
+void MainWindow::on_pushBtn_about_clicked()
+{
+    aboutDialog = new _AboutDialog(this);
+    aboutDialog->setModal(true);
+    aboutDialog->show();
+}
