@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "_utility.h"       // Customized Algorithm Jar
+#include "_utility.hpp"
 
 #include <fstream>
 #include <sstream>
@@ -31,6 +31,7 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowFlags(Qt::FramelessWindowHint);
     setFixedSize(this->width(),this->height());
     this->setAttribute(Qt::WA_TranslucentBackground);
+    ui->pushBtn_append->setEnabled(false);
     myFont = new QFont("Courier New", 9, QFont::Bold);
     initialization();
     timer = new QTimer(this);
@@ -72,6 +73,7 @@ void MainWindow::on_pushButton_read_clicked()
                 QMessageBox::information(this, "啊哦", "你并没有在D盘创建相应文件哦", QMessageBox::Yes);
             }
             else{
+                ui->pushBtn_append->setEnabled(true);
                 ui->pushButton_search->setEnabled(true);
                 ui->progressBar->setVisible(true);
                 /*进度条繁忙状态*/
@@ -210,6 +212,10 @@ void MainWindow::initialization(){
                                      "QPushButton:hover{border-image: url(:/images/about1.png);}"
                                      "QPushButton:pressed{border-image: url(:/images/about3.png);}");
 
+    ui->pushBtn_append->setStyleSheet("QPushButton{border-image: url(:/images/append0.png);}"
+                                      "QPushButton:hover{border-image: url(:/images/append1.png);}"
+                                      "QPushButton:pressed{border-image: url(:/images/append3.png);}");
+
     ui->pushBtn_help->setStyleSheet("QPushButton{border-image: url(:/images/hint0.png);}"
                                     "QPushButton:hover{border-image: url(:/images/hint1.png);}"
                                     "QPushButton:pressed{border-image: url(:/images/hint3.png);}");
@@ -310,4 +316,15 @@ void MainWindow::onShakeWindow()
     pAnimation->setKeyValueAt(0.9, QPoint(geometry().x() + 3, geometry().y() + 3));
     pAnimation->setKeyValueAt(1, QPoint(geometry().x() - 3, geometry().y() - 3));
     pAnimation->start(QAbstractAnimation::DeleteWhenStopped);
+}
+
+void MainWindow::on_pushBtn_append_clicked()
+{
+    appendDialog = new _appendDialog(this);
+    appendDialog->setModal(true);
+    appendDialog->show();
+}
+
+void MainWindow::appendMainText(QString str){
+    ui->textBrowser_main->append(str);
 }
