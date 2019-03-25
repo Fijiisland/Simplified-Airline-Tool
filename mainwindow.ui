@@ -202,7 +202,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-image: url(:/images/hint0.png);</string>
+     <string notr="true">border-image: url(:/images/hint0.png);</string>
     </property>
     <property name="text">
      <string/>

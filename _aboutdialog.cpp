@@ -4,6 +4,7 @@
 #include <QFontDatabase>
 #include <QDesktopServices>
 #include <QUrl>
+#define DEBUG
 
 _AboutDialog::_AboutDialog(QWidget *parent) :
     QDialog(parent),
@@ -26,7 +27,11 @@ void _AboutDialog::initialization(){
     ui->label_logo_text->setFont(QFont(msyh, 22));
     ui->label_logo_text->setStyleSheet("color:#8B8386;");
     ui->label_brief->setFont(QFont(msyh, 15, QFont::Normal, true));
+#ifdef DEBUG
+    ui->label_brief->setStyleSheet("color:#2a332c;");
+#else
     ui->label_brief->setStyleSheet("color:#8B8386;");
+#endif
 }
 
 void _AboutDialog::on_pushButton_clicked()

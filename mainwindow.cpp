@@ -63,7 +63,7 @@ void MainWindow::on_pushButton_read_clicked()
 {
     if(ui->textBrowser_main->document()->isEmpty()){
         using std::fstream;
-        const char *path = "/Users/1kasshole/Desktop/info.txt";
+        const char *path = "D://info.txt";
         fstream fs;
         try {
             fs.open(path, fstream::in);
@@ -209,6 +209,10 @@ void MainWindow::initialization(){
     ui->pushBtn_about->setStyleSheet("QPushButton{border-image: url(:/images/about0.png);}"
                                      "QPushButton:hover{border-image: url(:/images/about1.png);}"
                                      "QPushButton:pressed{border-image: url(:/images/about3.png);}");
+
+    ui->pushBtn_help->setStyleSheet("QPushButton{border-image: url(:/images/hint0.png);}"
+                                    "QPushButton:hover{border-image: url(:/images/hint1.png);}"
+                                    "QPushButton:pressed{border-image: url(:/images/hint3.png);}");
 
 
     ui->pushButton_read->setStyleSheet("border:1.5px groove gray;border-radius:10px;");
