@@ -16,6 +16,7 @@
 #include <QPainter>
 #include <QPixmap>
 #include <QBitmap>
+#include <QPropertyAnimation>
 
 using std::stringstream;
 using std::string;
@@ -66,9 +67,12 @@ void MainWindow::on_pushButton_read_clicked()
         fstream fs;
         try {
             fs.open(path, fstream::in);
-            if(!fs)
+            if(!fs){
+                onShakeWindow();
                 QMessageBox::information(this, "啊哦", "你并没有在D盘创建相应文件哦", QMessageBox::Yes);
+            }
             else{
+                ui->pushButton_search->setEnabled(true);
                 ui->progressBar->setVisible(true);
                 /*进度条繁忙状态*/
                 ui->progressBar->setMinimum(0);
@@ -206,11 +210,17 @@ void MainWindow::initialization(){
                                      "QPushButton:hover{border-image: url(:/images/about1.png);}"
                                      "QPushButton:pressed{border-image: url(:/images/about3.png);}");
 
+    ui->pushBtn_help->setStyleSheet("QPushButton{border-image: url(:/images/hint0.png);}"
+                                    "QPushButton:hover{border-image: url(:/images/hint1.png);}"
+                                    "QPushButton:pressed{border-image: url(:/images/hint3.png);}");
+
 
     ui->pushButton_read->setStyleSheet("border:1.5px groove gray;border-radius:10px;");
     ui->pushButton_search->setStyleSheet("border:1.5px groove gray;border-radius:10px;");
     ui->textBrowser_main->setStyleSheet("border:1.5px dashed #A3A3A3;");
     ui->textBrowser_minor->setStyleSheet("border:1.5px dashed #A3A3A3;");
+
+    ui->pushButton_search->setEnabled(false);
 
     QIcon icon;
     icon.addFile(tr(":/images/btn.png"));
@@ -281,4 +291,23 @@ void MainWindow::on_pushBtn_about_clicked()
     aboutDialog = new _AboutDialog(this);
     aboutDialog->setModal(true);
     aboutDialog->show();
+}
+
+void MainWindow::onShakeWindow()
+{
+    QPropertyAnimation *pAnimation = new QPropertyAnimation(this, "pos");
+    pAnimation->setDuration(500);
+    pAnimation->setLoopCount(2);
+    pAnimation->setKeyValueAt(0, QPoint(geometry().x() - 3, geometry().y() - 3));
+    pAnimation->setKeyValueAt(0.1, QPoint(geometry().x() + 3, geometry().y() + 3));
+    pAnimation->setKeyValueAt(0.2, QPoint(geometry().x() - 3, geometry().y() + 3));
+    pAnimation->setKeyValueAt(0.3, QPoint(geometry().x() + 3, geometry().y() - 3));
+    pAnimation->setKeyValueAt(0.4, QPoint(geometry().x() - 3, geometry().y() - 3));
+    pAnimation->setKeyValueAt(0.5, QPoint(geometry().x() + 3, geometry().y() + 3));
+    pAnimation->setKeyValueAt(0.6, QPoint(geometry().x() - 3, geometry().y() + 3));
+    pAnimation->setKeyValueAt(0.7, QPoint(geometry().x() + 3, geometry().y() - 3));
+    pAnimation->setKeyValueAt(0.8, QPoint(geometry().x() - 3, geometry().y() - 3));
+    pAnimation->setKeyValueAt(0.9, QPoint(geometry().x() + 3, geometry().y() + 3));
+    pAnimation->setKeyValueAt(1, QPoint(geometry().x() - 3, geometry().y() - 3));
+    pAnimation->start(QAbstractAnimation::DeleteWhenStopped);
 }

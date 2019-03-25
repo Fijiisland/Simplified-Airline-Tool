@@ -59,6 +59,7 @@ private:
     bool                  m_move;
     const Airplane* bSearch(std::string tnum);
     void            initialization();
+    void            onShakeWindow();
     QWizardPage*    createPage1();
     QWizardPage*    createPage2();
 };
