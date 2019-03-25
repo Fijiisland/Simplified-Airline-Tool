@@ -17,6 +17,9 @@
         <file>github_logo.png</file>
         <file>hint1.png</file>
         <file>hint3.png</file>
+        <file>append0.png</file>
+        <file>append1.png</file>
+        <file>append3.png</file>
     </qresource>
     <qresource prefix="/font">
         <file>InfoDisplayWeb_Bold.ttf</file>

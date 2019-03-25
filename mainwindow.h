@@ -8,7 +8,8 @@
 #include <QFont>
 #include <QWizard>
 #include "_airplane.h"
-#include "_aboutdialog.h" // Customized Dialog Window
+#include "_aboutdialog.h"  // Customized Dialog Window
+#include "_appenddialog.h"
 
 namespace Ui {
 class MainWindow;
@@ -21,6 +22,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+     void          appendMainText(QString str);
 
 protected:
       virtual void paintEvent( QPaintEvent * e);
@@ -44,13 +47,14 @@ private slots:
 
     void on_pushBtn_help_clicked();
 
-    //void on_pushBtn_about_clicked();
-
     void on_pushBtn_about_clicked();
+
+    void on_pushBtn_append_clicked();
 
 private:
     Ui::MainWindow       *ui;
     _AboutDialog         *aboutDialog;
+    _appendDialog        *appendDialog;
     std::vector<Airplane> planes;
     QTimer               *timer;
     QFont                *myFont;
