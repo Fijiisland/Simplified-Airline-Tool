@@ -14,22 +14,25 @@ TEMPLATE = app
 RC_ICONS = logo.ico
 
 
-SOURCES += main.cpp\
-        mainwindow.cpp \
-    _aboutdialog.cpp \
-    _appenddialog.cpp
+SOURCES += sources/main.cpp\
+        sources/mainwindow.cpp \
+    sources/_aboutdialog.cpp \
+    sources/_appenddialog.cpp \
+    sources/_blendsort.cpp \
+    sources/_utility.cpp \
+    sources/_Insertionsort.cpp \
 
-HEADERS  += mainwindow.h \
-    _airplane.h \
-    _aboutdialog.h \
-    _appenddialog.h \
-    _blendSort.hpp \
-    _InsertionSort.hpp \
-    _utility.hpp
+HEADERS  += headers/mainwindow.h \
+    headers/_airplane.h \
+    headers/_aboutdialog.h \
+    headers/_appenddialog.h \
+    headers/_utility.h \
+    headers/_blendSort.h \
+    headers/_InsertionSort.h
 
-FORMS    += mainwindow.ui \
-    _aboutdialog.ui \
-    _appenddialog.ui
+FORMS    += UIs/mainwindow.ui \
+    UIs/_aboutdialog.ui \
+    UIs/_appenddialog.ui
 
 RESOURCES += \
     source.qrc

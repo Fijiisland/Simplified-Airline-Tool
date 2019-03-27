@@ -1,27 +1,27 @@
 <RCC>
     <qresource prefix="/images">
-        <file>btn.png</file>
-        <file>hint0.png</file>
-        <file>mainICO.png</file>
-        <file>minimize0.png</file>
-        <file>minimize1.png</file>
-        <file>quit0.png</file>
-        <file>quit1.png</file>
-        <file>minimize3.png</file>
-        <file>quit3.png</file>
         <file>logo.ico</file>
-        <file>about1.png</file>
-        <file>about0.png</file>
-        <file>about3.png</file>
-        <file>search_hint.png</file>
-        <file>github_logo.png</file>
-        <file>hint1.png</file>
-        <file>hint3.png</file>
-        <file>append0.png</file>
-        <file>append1.png</file>
-        <file>append3.png</file>
+        <file>share/images/append3.png</file>
+        <file>share/images/about0.png</file>
+        <file>share/images/about1.png</file>
+        <file>share/images/about3.png</file>
+        <file>share/images/append0.png</file>
+        <file>share/images/append1.png</file>
+        <file>share/images/btn.png</file>
+        <file>share/images/github_logo.png</file>
+        <file>share/images/hint0.png</file>
+        <file>share/images/hint1.png</file>
+        <file>share/images/hint3.png</file>
+        <file>share/images/mainICO.png</file>
+        <file>share/images/minimize0.png</file>
+        <file>share/images/minimize1.png</file>
+        <file>share/images/minimize3.png</file>
+        <file>share/images/quit0.png</file>
+        <file>share/images/quit1.png</file>
+        <file>share/images/quit3.png</file>
+        <file>share/images/search_hint.png</file>
     </qresource>
     <qresource prefix="/font">
-        <file>InfoDisplayWeb_Bold.ttf</file>
+        <file>share/fonts/InfoDisplayWeb_Bold.ttf</file>
     </qresource>
 </RCC>
